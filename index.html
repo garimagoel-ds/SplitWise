@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SplitWise - Smart Expense Splitter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="logo"><span>S</span> SplitWise</div>
+
+        <p class="menu-title">WORKSPACE</p>
+
+        <a href="#dashboard" class="nav-link active">▦ Dashboard</a>
+        <a href="#expenses" class="nav-link">↔ Expenses</a>
+        <a href="#settlements" class="nav-link">⇄ Settlements</a>
+    </aside>
+
+
+    <main class="main-content">
+
+        <header class="topbar" id="dashboard">
+            <div>
+                <p class="eyebrow">YOUR EXPENSES, SIMPLIFIED</p>
+                <h1>Dashboard</h1>
+                <p class="subtitle">Manage shared expenses without the confusion.</p>
+            </div>
+
+            <button class="primary-btn" onclick="document.getElementById('expenseTitle').focus()">
+                + Add expense
+            </button>
+        </header>
+
+
+        <!-- SUMMARY CARDS -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <p>Total group spending</p>
+                <h2 id="totalSpending">₹0.00</h2>
+                <small>Across all expenses</small>
+            </div>
+
+            <div class="stat-card">
+                <p>Group members</p>
+                <h2 id="memberCount">0</h2>
+                <small>People in this group</small>
+            </div>
+
+            <div class="stat-card">
+                <p>Total expenses</p>
+                <h2 id="expenseCount">0</h2>
+                <small>Recorded transactions</small>
+            </div>
+
+            <div class="stat-card highlight">
+                <p>Pending settlements</p>
+                <h2 id="settlementCount">0</h2>
+                <small>Transfers needed to settle</small>
+            </div>
+
+        </section>
+
+
+        <!-- MEMBERS AND EXPENSE FORM -->
+
+        <section class="two-column">
+
+            <div class="panel">
+                <h3>Group members</h3>
+                <p class="panel-subtitle">People sharing the expenses</p>
+
+                <form id="memberForm" class="member-form">
+                    <input
+                        type="text"
+                        id="memberName"
+                        placeholder="Enter member name"
+                        maxlength="30"
+                        required
+                    >
+                    <button type="submit" class="primary-btn">Add</button>
+                </form>
+
+                <div id="memberList" class="member-list">
+                    <p class="empty-state">No members added yet.</p>
+                </div>
+            </div>
+
+
+            <div class="panel" id="expenses">
+                <h3>Add an expense</h3>
+                <p class="panel-subtitle">Record a shared payment</p>
+
+                <form id="expenseForm">
+
+                    <label for="expenseTitle">Expense description</label>
+                    <input
+                        type="text"
+                        id="expenseTitle"
+                        placeholder="e.g. Dinner, Cab, Shopping"
+                        maxlength="60"
+                        required
+                    >
+
+                    <div class="form-row">
+                        <div>
+                            <label for="expenseAmount">Amount (₹)</label>
+                            <input
+                                type="number"
+                                id="expenseAmount"
+                                placeholder="500"
+                                min="0.01"
+                                step="0.01"
+                                required
+                            >
+                        </div>
+
+                        <div>
+                            <label for="paidBy">Paid by</label>
+                            <select id="paidBy" required>
+                                <option value="">Select a member</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+<div class="participant-section">
+    <label>Split between</label>
+    <p class="participant-hint">Select the people sharing this expense.</p>
+
+    <div id="participantList" class="participant-list"></div>
+
+    <button type="button" id="selectAllBtn" class="select-all-btn">
+        Select all members
+    </button>
+</div>
+
+                    <button type="submit" class="primary-btn full-btn">
+                        Save expense
+                    </button>
+
+                </form>
+            </div>
+
+        </section>
+
+
+        <!-- BALANCES -->
+
+        <section class="panel section-panel">
+            <div class="section-heading">
+                <div>
+                    <h3>Individual balances</h3>
+                    <p class="panel-subtitle">Who owes money and who gets it back?</p>
+                </div>
+            </div>
+
+            <div id="balanceList" class="balance-list">
+                <p class="empty-state">Add expenses to calculate balances.</p>
+            </div>
+        </section>
+
+
+        <!-- SETTLEMENTS -->
+
+        <section class="panel section-panel" id="settlements">
+            <div class="section-heading">
+                <div>
+                    <h3>Smart settlements</h3>
+                    <p class="panel-subtitle">Simplified payments using a Greedy Algorithm</p>
+                </div>
+
+                <button id="settleBtn" class="primary-btn">
+                    Generate settlements
+                </button>
+            </div>
+
+            <div id="settlementList" class="settlement-list">
+                <p class="empty-state">Your settlement plan will appear here.</p>
+            </div>
+        </section>
+
+
+        <!-- EXPENSE HISTORY -->
+
+        <section class="panel section-panel">
+            <div class="section-heading">
+                <div>
+                    <h3>Expense history</h3>
+                    <p class="panel-subtitle">All recorded group transactions</p>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Paid by</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="expenseHistory">
+                        <tr>
+                            <td colspan="4" class="empty-state">No expenses recorded yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+
+        <footer>
+            <p>SplitWise © 2026 | Smart Expense Management using Data Structures & Algorithms</p>
+            <button id="resetBtn" class="reset-btn">Reset group</button>
+        </footer>
+
+    </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
